@@ -2,7 +2,7 @@
   "event": "Agents Open for Business (Celo x Loops House)",
   "deadlineUtc": "2026-12-07T09:00:00Z",
   "attributionTag": "celo_f5886810da35",
-  "agentWallet": "0xTODO_REGISTER_IN_LOOPS",
+  "agentWallet": "0xc9a4F9af5c56D2E5260D217b20F27E46873436E5",
   "network": {
     "name": "celo-mainnet",
     "chainId": 42220,
