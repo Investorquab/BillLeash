@@ -8,6 +8,7 @@
  *   AGENT_PRIVATE_KEY=0x... tsx scripts/register-8004.ts
  * The wallet needs a little CELO for gas.
  */
+import "../src/core/env.js";
 import { ERC8004_ABI, identityRegistry, AGENT_URI, isRegistered } from "../src/core/erc8004.js";
 import { tagSuffix } from "../src/core/tag.js";
 import { walletClient, publicClient, agentAccount } from "../src/core/wallet.js";
