@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "build": "tsc",
-    "quote": "tsx scripts/quote.ts"
+    "quote": "tsx scripts/quote.ts",
+    "register:8004": "tsx scripts/register-8004.ts"
   },
   "repository": {
     "type": "git",

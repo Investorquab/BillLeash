@@ -1,0 +1,12 @@
+{
+  "name": "BillLeash",
+  "description": "An AI agent that pays dollar-denominated bills (metered APIs via x402, card subscriptions via Agent Vault) out of local-currency stablecoins, converting on Textile FX, from a revocable Altana session-key wallet. Celo mainnet.",
+  "image": "https://raw.githubusercontent.com/Investorquab/BillLeash/main/assets/brand/billleash-icon.png",
+  "url": "https://github.com/Investorquab/BillLeash",
+  "endpoints": [
+    { "name": "repo", "uri": "https://github.com/Investorquab/BillLeash" }
+  ],
+  "capabilities": ["pay-bills", "fx-convert", "x402", "agent-vault-checkout"],
+  "chain": "celo",
+  "chainId": 42220
+}
