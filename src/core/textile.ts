@@ -61,15 +61,22 @@ export class TextileFx {
   }
 
   /**
-   * Firm quote. Needs a Textile test/live API key (from the app profile menu).
-   * Returns the executable order + the transaction for the caller to sign and
-   * broadcast from the registered agent wallet (with the attribution tag).
+   * Firm quote. Needs a Textile test/live API key (from the app profile menu);
+   * the key is linked to a taker wallet at creation time, which is how the API
+   * proves control of `taker` (observed: the endpoint rejects an unauthenticated
+   * or wallet-less request with `proof_of_control_required`). Returns the
+   * executable order + the transaction for the caller to sign and broadcast from
+   * the registered agent wallet (with the ERC-8021 attribution tag appended).
+   *
+   * `taker` is the wallet that will settle and receive the bought token — the
+   * registered agent wallet.
    */
   async request(
     sell: string,
     buy: string,
     amount: string,
     apiKey: string,
+    taker: `0x${string}`,
   ): Promise<any> {
     const s = token(sell);
     const b = token(buy);
@@ -80,6 +87,7 @@ export class TextileFx {
         sellToken: s.address,
         buyToken: b.address,
         sellAmount: toBaseUnits(amount, s.decimals).toString(),
+        taker,
       },
       apiKey,
     );

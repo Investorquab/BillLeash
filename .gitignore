@@ -8,3 +8,6 @@ node_modules/
 dist/
 .DS_Store
 session.json
+receipts.json
+self-agent.json
+self-agent-key.json
