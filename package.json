@@ -7,7 +7,9 @@
     "test": "vitest run",
     "build": "tsc",
     "quote": "tsx scripts/quote.ts",
-    "register:8004": "tsx scripts/register-8004.ts"
+    "register:8004": "tsx scripts/register-8004.ts",
+    "grant:leash": "tsx scripts/grant-leash.ts",
+    "revoke:leash": "tsx scripts/revoke-leash.ts"
   },
   "repository": {
     "type": "git",
