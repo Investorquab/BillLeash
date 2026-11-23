@@ -1,0 +1,32 @@
+{
+  "_note": "Demo bills the agent pays and the dashboard shows. Canonical source; apps/web/src/data/bills.ts mirrors this. Replace target/payTo with real endpoints before a live run.",
+  "bills": [
+    {
+      "id": "vps-metered",
+      "vendor": "Metered VPS API",
+      "rail": "x402",
+      "usdAmount": "6.00",
+      "target": "https://api.x402.celo.org/demo/vps-hour",
+      "fund": "cNGN",
+      "note": "A metered hosting API billed per call over x402, paid from the leashed session key."
+    },
+    {
+      "id": "transcribe-metered",
+      "vendor": "Transcription API",
+      "rail": "x402",
+      "usdAmount": "4.41",
+      "target": "https://api.x402.celo.org/demo/transcribe",
+      "fund": "cNGN",
+      "note": "A per-call AI endpoint; small amounts settled under the cap."
+    },
+    {
+      "id": "saas-card",
+      "vendor": "SaaS subscription",
+      "rail": "agentvault-card",
+      "usdAmount": "12.00",
+      "target": "https://checkout.example/subscribe",
+      "fund": "cNGN",
+      "note": "A monthly card subscription paid via Agent Vault (mock card; the agent never sees the number). Needs an Agent Vault account."
+    }
+  ]
+}

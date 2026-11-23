@@ -11,9 +11,11 @@
  * Run where the keys live (never in a shared/CI session):
  *   NODE_USE_ENV_PROXY=1 \
  *   AGENT_PRIVATE_KEY=0x... [TEXTILE_API_KEY=tx_...] \
+ *   npx tsx scripts/pay-bill.ts --bill vps-metered [--dry]       # a demo bill from config/bills.json
+ *   npx tsx scripts/pay-bill.ts --list                           # list the demo bills
  *   npx tsx scripts/pay-bill.ts \
  *     --vendor "VPS" --usd 6 --rail x402 --target https://vps.example/meter \
- *     [--payTo 0x..] [--fund cNGN] [--dry]
+ *     [--payTo 0x..] [--fund cNGN] [--dry]                       # or an ad-hoc bill
  *
  * --dry runs the gate + a convert PREVIEW and stops before any broadcast.
  * Moves real funds on mainnet otherwise; coordinated with the key-holder.
@@ -29,6 +31,7 @@ import { convert } from "../src/core/convert.js";
 import { effectiveRate, fromBaseUnits } from "../src/core/amounts.js";
 import { payBill } from "../src/core/payrouter.js";
 import { recordReceipt, loadReceipts, explorerTx } from "../src/core/receipts.js";
+import { getBill, loadBills } from "../src/core/bills.js";
 
 // ---- args ----------------------------------------------------------------
 function arg(name: string, def?: string): string | undefined {
@@ -37,18 +40,27 @@ function arg(name: string, def?: string): string | undefined {
 }
 const hasFlag = (name: string) => process.argv.includes(`--${name}`);
 
-const vendor = arg("vendor", "VPS hosting");
-const usdAmount = arg("usd", "6")!;
-const rail = (arg("rail", "x402") as Rail);
-const target = arg("target", "https://example.com/meter")!;
-const payTo = arg("payTo") as `0x${string}` | undefined;
-const fund = arg("fund", loadConfig().corridorsLeadWith)!; // e.g. cNGN
+if (hasFlag("list")) {
+  console.log("Demo bills (config/bills.json):");
+  for (const b of loadBills())
+    console.log(`  ${b.id}  — ${b.vendor}, $${b.usdAmount} via ${b.rail}, fund ${b.fund ?? "USDT"}`);
+  process.exit(0);
+}
+
+// A bill may be picked from config/bills.json with --bill <id>; flags override it.
+const preset = arg("bill") ? getBill(arg("bill")!) : undefined;
+const vendor = arg("vendor", preset?.vendor ?? "VPS hosting");
+const usdAmount = arg("usd", preset?.usdAmount ?? "6")!;
+const rail = (arg("rail", preset?.rail ?? "x402") as Rail);
+const target = arg("target", preset?.target ?? "https://example.com/meter")!;
+const payTo = (arg("payTo") ?? preset?.payTo) as `0x${string}` | undefined;
+const fund = arg("fund", preset?.fund ?? loadConfig().corridorsLeadWith)!; // e.g. cNGN
 const DRY = hasFlag("dry");
 
 const USD_STABLES = new Set(["USDT", "USDC", "USAT"]);
 const cfg = loadConfig();
 
-const bill: Bill = { id: `bill-${Date.now()}`, vendor: vendor!, rail, usdAmount, target, payTo };
+const bill: Bill = { id: `${preset?.id ?? "bill"}-${Date.now()}`, vendor: vendor!, rail, usdAmount, target, payTo };
 
 // ---- build the leash state for the gate ----------------------------------
 // spent-this-period is derived from recorded payment receipts (honest running

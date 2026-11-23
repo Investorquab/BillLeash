@@ -3,14 +3,10 @@ import type { LeashState, FeedEvent } from "../data/seed";
 import { TOKENS } from "../data/config";
 import { canPay, remainingUsd } from "../lib/decision";
 import { previewToUsd, type PreviewResult } from "../lib/textile";
+import { BILLS } from "../data/bills";
 
-/** Sample bills a judge can pay, mirroring the engine's Bill rails. */
-const SAMPLE_BILLS = [
-  { vendor: "VPS hosting (metered API)", usd: 6, rail: "x402" as const },
-  { vendor: "Transcription API (per-call)", usd: 4.41, rail: "x402" as const },
-  { vendor: "Domain renewal", usd: 12, rail: "buy" as const },
-  { vendor: "SaaS subscription", usd: 45, rail: "x402" as const }, // over cap → refusal
-];
+/** The bills a judge can pay — shared with the agent (mirror of config/bills.json). */
+const SAMPLE_BILLS = BILLS;
 
 const FUNDING = ["cNGN", "IDRX", "wARS", "wCOP"];
 

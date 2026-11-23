@@ -9,6 +9,7 @@
     "quote": "tsx scripts/quote.ts",
     "convert": "tsx scripts/convert.ts",
     "pay": "tsx scripts/pay-bill.ts",
+    "doctor": "tsx scripts/doctor.ts",
     "register:8004": "tsx scripts/register-8004.ts",
     "register:self": "tsx scripts/register-self.ts",
     "grant:leash": "tsx scripts/grant-leash.ts",
