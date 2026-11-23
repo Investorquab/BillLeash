@@ -78,9 +78,14 @@ for (const r of rows) {
   console.log(`  ${mark}  ${r.label.padEnd(22)} ${r.detail}`);
 }
 const missingNeeded = rows.filter((r) => !r.ok && r.needed);
-console.log(
-  missingNeeded.length === 0
-    ? "\n✓ Ready for a live convert → pay (fund the wallet and set the keys where noted)."
-    : `\n✗ Not ready: ${missingNeeded.length} required check(s) missing above.`,
-);
-process.exit(missingNeeded.length === 0 ? 0 : 1);
+const cngnOk = rows.find((r) => r.label === "cNGN to convert")?.ok ?? false;
+if (missingNeeded.length > 0) {
+  console.log(`\n✗ Not ready: ${missingNeeded.length} required check(s) missing above.`);
+  process.exit(1);
+} else if (!cngnOk) {
+  console.log("\n⚠ Required checks pass, but the wallet holds 0 cNGN — a convert run has nothing to swap. Fund cNGN, then re-run.");
+  process.exit(1);
+} else {
+  console.log("\n✓ Ready for a live convert → pay.");
+  process.exit(0);
+}
